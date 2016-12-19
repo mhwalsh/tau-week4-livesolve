@@ -1,10 +1,12 @@
 var express = require('express');
 var path = require('path');
+var bodyParser = require('body-parser');
 var task = require('./routes/task');
 var app = express();
 
 //middleware
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({extended: true}));
 
 // pull in task router and use
 app.use('/task', task);

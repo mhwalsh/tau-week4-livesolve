@@ -27,4 +27,29 @@ router.get('/', function(req, res) {
   });
 });
 
+router.post('/', function(req, res) {
+  console.log('create task route hit');
+  console.log('req.body ->', req.body);
+  var taskObject = req.body;
+
+  pg.connect(connectionString, function(err, client, done) {
+    if(err){
+      console.log(err);
+      res.sendStatus(500);
+    }
+
+    client.query("INSERT INTO task (name) VALUES ($1)",
+      [taskObject.name],
+      function(err, result) {
+        done();
+
+        if(err){
+          console.log(err);
+          res.sendStatus(500);
+        }
+        res.sendStatus(201); //created
+    });
+  });
+});
+
 module.exports = router;
