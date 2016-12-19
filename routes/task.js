@@ -52,4 +52,27 @@ router.post('/', function(req, res) {
   });
 });
 
+// https://expressjs.com/en/guide/routing.html
+router.delete('/:id', function(req, res) {
+  console.log('delete task route hit');
+  var taskId = req.params.id;
+  console.log('req.params.id ->', taskId);
+
+  pg.connect(connectionString, function(err, client, done) {
+    if(err){
+      console.log(err);
+      res.sendStatus(500);
+    }
+    client.query("DELETE FROM task WHERE id = $1",
+      [taskId], function(err, result) {
+        if(err){
+          console.log(err);
+          res.sendStatus(500);
+        }
+
+        res.sendStatus(200); //OK
+    });
+  });
+});
+
 module.exports = router;

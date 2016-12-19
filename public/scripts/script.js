@@ -52,7 +52,7 @@ function deleteTask(){
   $.ajax({
     type: 'DELETE',
     url: '/task/' + id,
-    success: function() {
+    success: function(response) {
       console.log(response);
       getTasks();
     }
